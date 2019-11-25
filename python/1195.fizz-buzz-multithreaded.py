@@ -1,0 +1,47 @@
+# class FizzBuzz:
+#     def __init__(self, n: int):
+#         self.n = n
+
+#     # printFizz() outputs "fizz"
+#     # def fizz(self, printFizz: 'Callable[[], None]') -> None:
+#     def fizz(self, printFizz) -> None:
+        
+
+#     # printBuzz() outputs "buzz"
+#     # def buzz(self, printBuzz: 'Callable[[], None]') -> None:
+#     def buzz(self, printBuzz) -> None:
+        
+
+#     # printFizzBuzz() outputs "fizzbuzz"
+#     # def fizzbuzz(self, printFizzBuzz: 'Callable[[], None]') -> None:
+#     def fizzbuzz(self, printFizzBuzz) -> None:
+        
+
+#     # printNumber(x) outputs "x", where x is an integer.
+#     # def number(self, printNumber: 'Callable[[int], None]') -> None:
+#     def number(self, printNumber) -> None:
+# #         
+
+
+
+import logging
+import threading
+import time
+
+def thread_function(name):
+    logging.info("Thread %s: starting", name)
+    time.sleep(2)
+    logging.info("Thread %s: finishing", name)
+
+if __name__ == "__main__":
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+
+    logging.info("Main    : before creating thread")
+    x = threading.Thread(target=thread_function, args=(1,))
+    logging.info("Main    : before running thread")
+    x.start()
+    logging.info("Main    : wait for the thread to finish")
+    # x.join()
+    logging.info("Main    : all done")

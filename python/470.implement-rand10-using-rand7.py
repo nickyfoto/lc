@@ -1,0 +1,110 @@
+#
+# @lc app=leetcode id=470 lang=python3
+#
+# [470] Implement Rand10() Using Rand7()
+#
+# https://leetcode.com/problems/implement-rand10-using-rand7/description/
+#
+# algorithms
+# Medium (45.24%)
+# Total Accepted:    11.3K
+# Total Submissions: 25K
+# Testcase Example:  '1'
+#
+# Given a function rand7 which generates a uniform random integer in the range
+# 1 to 7, write a function rand10 which generates a uniform random integer in
+# the range 1 to 10.
+# 
+# Do NOT use system's Math.random().
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# Example 1:
+# 
+# 
+# Input: 1
+# Output: [7]
+# 
+# 
+# 
+# Example 2:
+# 
+# 
+# Input: 2
+# Output: [8,4]
+# 
+# 
+# 
+# Example 3:
+# 
+# 
+# Input: 3
+# Output: [8,1,10]
+# 
+# 
+# 
+# 
+# Note:
+# 
+# 
+# rand7 is predefined.
+# Each testcase has one argument: n, the number of times that rand10 is
+# called.
+# 
+# 
+# 
+# 
+# Follow up:
+# 
+# 
+# What is the expected value for the number of calls to rand7() function?
+# Could you minimize the number of calls to rand7()?
+# 
+# 
+# 
+# 
+# 
+#
+# The rand7() API is already defined for you.
+# def rand7():
+# @return a random integer in the range 1 to 7
+# from random import choices
+# from collections import Counter
+class Solution:
+    
+    def rand10(self):
+        """
+        :rtype: int
+        """
+        
+        
+
+        # s = [rand7() for i in range(100000)]
+        # print(s)
+        
+        # print(Counter(s))
+        # def rand7():
+        #     return choices(range(1,8), k=1)[0]
+        a = rand7()
+        b = rand7()
+        # print(a, b)
+        total = a + b
+        if total > 6:
+            return rand7()
+        else:
+            if total == 6:
+                return 8
+            elif total == 5 or total == 2:
+                return 9
+            else:
+                return 10
+
+# s = Solution()
+# print(Counter([s.rand10() for i in range(10000)]))
+# import random
+# print()
+        
