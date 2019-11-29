@@ -89,8 +89,11 @@ class Solution:
 
 
 
-        def calculate_c(c, idx):
-            cp = c.copy()
+        def calculate_c(record, idx, current_keys):
+            # print(current_keys, )
+            if set(list(record['indices'].keys()) + [idx]) in current_keys:
+                return False
+            cp = record['c'].copy()
             new_c = Counter(words[idx])
             for k, v in new_c.items():
                 cp[k] -= v
@@ -108,6 +111,18 @@ class Solution:
 
 
 
+        def get_available_words(record, current_keys):
+            avialable_indices = []
+            new_c_list = []
+            for idx in range(n):
+                if idx not in record['indices']:
+                    new_c = calculate_c(record, idx, current_keys)
+                    if new_c is not False:
+                        avialable_indices.append(idx)
+                        new_c_list.append(new_c)
+            return avialable_indices, new_c_list
+
+
 
         n = len(words)
         record = {'indices': {}, 'score': 0, 'c': c}
@@ -117,28 +132,22 @@ class Solution:
         max_score = 0
         for i in range(1, n+1):
             d[i] = []
-            scores = []
+            # list of current indices
+            current_keys = []
             for record in d[i-1]:
-                # if max score of available word for this record
-                # is less than current max_score
-                # continue
-
-
-                for idx in range(n):
-                    if idx not in record['indices']:
-                        new_c = calculate_c(record['c'], idx)
-                        if new_c is not False:
-                            new_record = {}
-                            indices = record['indices'].copy()
-                            indices[idx] = True
-                            new_record['indices'] = indices
-                            new_record['score'] = record['score'] + words_scores[idx]
-                            # max_score = max(max_score, new_record['score'])
-                            new_record['c'] = new_c 
-                            d[i].append(new_record)
-                            scores.append(new_record['score'])
-            if scores:
-                max_score = max(max_score, max(scores))
+                avialable_indices, new_c_list = get_available_words(record, current_keys)
+                for ci, idx in enumerate(avialable_indices):
+                    new_record = {}
+                    indices = record['indices'].copy()
+                    indices[idx] = True
+                    current_keys.append(set(indices.keys()))
+                    new_record['indices'] = indices
+                    new_record['score'] = record['score'] + words_scores[idx]
+                    max_score = max(max_score, new_record['score'])
+                    new_record['c'] = new_c_list[ci]
+                    d[i].append(new_record)
+            # if scores:
+                # max_score = max(max_score, max(scores))
         return max_score
 # @lc code=end
 
