@@ -89,9 +89,10 @@ class Solution:
 
 
 
-        def calculate_c(record, idx, current_keys):
-            # print(current_keys, )
-            if set(list(record['indices'].keys()) + [idx]) in current_keys:
+        def calculate_c(indices, idx, current_d):
+            indices_cp = indices.copy()
+            indices_cp.add(idx)
+            if frozenset(indices_cp) in current_d:
                 return False
             cp = record['c'].copy()
             new_c = Counter(words[idx])
@@ -111,12 +112,13 @@ class Solution:
 
 
 
-        def get_available_words(record, current_keys):
+        def get_available_words(indices, current_d):
             avialable_indices = []
             new_c_list = []
             for idx in range(n):
-                if idx not in record['indices']:
-                    new_c = calculate_c(record, idx, current_keys)
+                if idx not in indices:
+                    # print(indices)
+                    new_c = calculate_c(indices, idx, current_d)
                     if new_c is not False:
                         avialable_indices.append(idx)
                         new_c_list.append(new_c)
@@ -125,27 +127,26 @@ class Solution:
 
 
         n = len(words)
-        record = {'indices': {}, 'score': 0, 'c': c}
+        record = {'score': 0, 'c': c}
         d = {}
-        d[0] = [record]
+        indices = frozenset()
+        d[0] = {indices: record}
 
         max_score = 0
         for i in range(1, n+1):
-            d[i] = []
-            # list of current indices
-            current_keys = []
-            for record in d[i-1]:
-                avialable_indices, new_c_list = get_available_words(record, current_keys)
+            d[i] = {}
+            for indices in d[i-1]:
+                uf_indices = set(indices)
+                record = d[i-1][indices]
+                avialable_indices, new_c_list = get_available_words(uf_indices, d[i])
                 for ci, idx in enumerate(avialable_indices):
                     new_record = {}
-                    indices = record['indices'].copy()
-                    indices[idx] = True
-                    current_keys.append(set(indices.keys()))
-                    new_record['indices'] = indices
+                    uf_indices_cp = uf_indices.copy()
+                    uf_indices_cp.add(idx)
                     new_record['score'] = record['score'] + words_scores[idx]
                     max_score = max(max_score, new_record['score'])
                     new_record['c'] = new_c_list[ci]
-                    d[i].append(new_record)
+                    d[i][frozenset(uf_indices_cp)] = new_record
             # if scores:
                 # max_score = max(max_score, max(scores))
         return max_score
