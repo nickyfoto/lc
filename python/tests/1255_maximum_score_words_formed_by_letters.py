@@ -77,8 +77,91 @@
 #
 
 # @lc code=start
+from collections import Counter
 class Solution:
     # def maxScoreWords(self, words: List[str], letters: List[str], score: List[int]) -> int:
     def maxScoreWords(self, words, letters, score):
-        print(len(letters), len(score))
+        # print(len(letters), len(score))
+
+
+        def get_score(word):
+            return sum(score[ord(w) - 97] for w in word)
+
+
+
+        def calculate_c(c, idx):
+            cp = c.copy()
+            new_c = Counter(words[idx])
+            for k, v in new_c.items():
+                cp[k] -= v
+                if cp[k] < 0:
+                    return False
+            return cp
+
+        c = Counter(letters)
+        # the max score we can get is
+        # max_score = sum(v*score[ord(k)-97] for k ,v in c.items())
+        # print(max_score)
+
+        words_scores = [get_score(word) for word in words]
+        # print(words_scores)
+
+
+
+
+        n = len(words)
+        record = {'indices': {}, 'score': 0, 'c': c}
+        d = {}
+        d[0] = [record]
+
+        max_score = 0
+        for i in range(1, n+1):
+            d[i] = []
+            scores = []
+            for record in d[i-1]:
+                # if max score of available word for this record
+                # is less than current max_score
+                # continue
+
+
+                for idx in range(n):
+                    if idx not in record['indices']:
+                        new_c = calculate_c(record['c'], idx)
+                        if new_c is not False:
+                            new_record = {}
+                            indices = record['indices'].copy()
+                            indices[idx] = True
+                            new_record['indices'] = indices
+                            new_record['score'] = record['score'] + words_scores[idx]
+                            # max_score = max(max_score, new_record['score'])
+                            new_record['c'] = new_c 
+                            d[i].append(new_record)
+                            scores.append(new_record['score'])
+            if scores:
+                max_score = max(max_score, max(scores))
+        return max_score
 # @lc code=end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
