@@ -2,7 +2,7 @@
 
 
 class Solution:
-    def findSolution(self, f, z):
+    def findSolution2(self, f, z):
 
 
         def cal_low_high(lo, hi):
@@ -12,20 +12,6 @@ class Solution:
             else:
                 exhausted = False
             return res, exhausted
-
-
-        def update_upper(upperbound, x, y):
-            if x <= upperbound[0] and y <= upperbound[1]:
-                return [x, y]
-            return upperbound
-
-
-        def update_lower(lowerbound, x, y):
-            if x >= lowerbound[0] and y >= lowerbound[1]:
-                return [x, y]
-            return lowerbound
-
-
 
         exhausted = False
         res = []
@@ -38,6 +24,7 @@ class Solution:
 
 
             original_hy = hy
+            original_ly = ly
             x, exhaust_x = cal_low_high(lx, hx)
             y, exhaust_y = cal_low_high(ly, hy)
             while not exhausted:
@@ -52,21 +39,19 @@ class Solution:
 
                     if r > z:
                         if x == 1 and y == 1:
+                            # print('here')
                             return None, None
                         # self.upperbound = update_upper(self.upperbound, x, y)
                         if not exhaust_y:
                             hy = y
+                            # print('ly=', ly, 'hy=', hy)
                             y, exhaust_y = cal_low_high(ly, hy)
-                            # if exhaust_x and exhaust_y:
-                            #     print('here', x, y)
-                            #     if f(x, y) != z:
-                            #         return None, None
-                            #     else:
-                            #         return x, y
+                            # print(x, y, exhaust_x, exhaust_y)
                         else:
                             # print('exhaust y')
                             hx = x
                             hy = original_hy
+                            ly = original_ly
                             x, exhaust_x = cal_low_high(lx, hx)
                             y, exhaust_y = cal_low_high(ly, hy)
                     else:
@@ -76,20 +61,21 @@ class Solution:
                         if not exhaust_y:
                             ly = y
                             y, exhaust_y = cal_low_high(ly, hy)
-                            # if exhaust_x and exhaust_y:
-                            #     return None, None
                         else:
                             # print('exhaust y')
                             lx = x
                             x, exhaust_x = cal_low_high(lx, hx)
                             hy = original_hy
+                            ly = original_ly
                             y, exhaust_y = cal_low_high(ly, hy)
+                            # print(x, y, exhaust_x, exhaust_y, ly)
         x, y = search(1, 1000, 1, 1000)
         if x is None and y is None:
             return []
+        # print(x, y, 'here')
         if [x, y] not in res:
             res.append([x, y])
-            # print(res)
+            print(res)
             if x > 1:
                 for i in range(1, 2*x-1, 2):
                     # print('i=', i)
@@ -98,56 +84,69 @@ class Solution:
                         continue
                     if [x, y] not in res:
                         res.append([x, y])
+            # print(x, y)
+            if y and y > 1:
+                for j in range(1, 2*y-1, 2):
+                    print('j=', j)
+                    x, y = search(1, 1000, 1, j)
+                    if x is None and y is None:
+                        continue
+                    if [x, y] not in res:
+                        res.append([x, y])
+                        print(res, [x,y])
+                    # else:
+                        # print('here', x, y)
 
         return res
 
 
 
 
-    def findSolution2(self, f, z):
-        upperbound = [1000, 1000]
-        lowerbound = [1, 1]
+    def findSolution(self, f, z):
 
-        def get_xy(upperbound, lowerbound):
-            x = lowerbound[0] + (upperbound[0]-lowerbound[0]) // 2
-            y = lowerbound[1] + (upperbound[1]-lowerbound[1]) // 2
-            return x, y
-
-        def update_upper(upperbound, x, y):
-            if x <= upperbound[0] and y <= upperbound[1]:
-                return [x, y]
-            return upperbound
-
-
-        def update_lower(lowerbound, x, y):
-            if x >= lowerbound[0] and y >= lowerbound[1]:
-                return [x, y]
-            return lowerbound
-
-        while upperbound != lowerbound:
-            x, y = get_xy(upperbound, lowerbound)
-            print(upperbound, lowerbound)
-            print(x, y)
-            r = f(x, y)
-            if r == z:
-                res.append([x, y])
-                print(res)
-                todo
+        def cal_low_high(lo, hi):
+            res = lo + (hi-lo) // 2
+            if res == lo:
+                exhausted = True
             else:
-                if r > z:
-                    upperbound = update_upper(upperbound, x, y)
+                exhausted = False
+            return res, exhausted
+
+        res = []
+        ly, hy = 1, 1000
+        for i in range(1, 1001):
+            y, exhaust_y = cal_low_high(ly, hy)
+
+            while not exhaust_y:
+                r = f(i, y)
+                if r == z:
+                    res.append([i, y])
+                    exhaust_y = True
                 else:
-                    lowerbound = update_lower(lowerbound, x, y)
-            # print(x, y)
+                    if r > z:
+                        hy = y
+                        y, exhaust_y = cal_low_high(ly, hy)
+                    else:
+                        ly = y
+                        y, exhaust_y = cal_low_high(ly, hy)
+                if exhaust_y and f(i, y) == z and [i, y] not in res:
+                    res.append([i, y])
+            ly, hy = 1, 1000
+        return res
+
 
 s = Solution()
 def f(a, b):
     return a+b
 # print(s.findSolution(f, 5))
-print(s.findSolution(f, 10))
+# print(s.findSolution(f, 19))
 # print(s.findSolution(f, 2) == [[1,1]])
 
 
 def f(a, b):
     return a*b
 # print(s.findSolution(f, 5))
+# print(s.findSolution(f, 10))
+def f(a, b):
+    return a**2 + b**2
+print(s.findSolution(f, 10))
