@@ -38,4 +38,11 @@ def test_1255():
     score = [2,1,9,2,10,5,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     Output = 298
     assert func(words, letters, score) == Output
+
+
+    words = ["da","ac","aba","abcc","cadc"]
+    letters = ["a","a","a","a","b","c","c","c","d","d","d"]
+    score = [3,7,9,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    Output = 49
+    assert func(words, letters, score) == Output
     # print(func(words, letters, score))
