@@ -95,7 +95,7 @@ class Solution:
         while len(p2) <= l:
             if len(p2) == l and Counter(p2) == nc:
                 return True
-            p2 = str(2**i)
             i += 1
+            p2 = str(2**i)
         return False
 # @lc code=end
