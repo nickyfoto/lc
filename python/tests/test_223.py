@@ -11,6 +11,6 @@ def test_223():
     func = getattr(s, fn)
 
     Output = 45
-    assert func(A = -3, B = 0, C = 3, D = 4, E = 0, F = -1, G = 9, H = 2) == Output
+    assert func(-3, 0, 3, 4, 0, -1, 9,  2) == Output
     Output = 24
     assert func(-2, -2, 2, 2, -3, -3, 3, -1) == Output
