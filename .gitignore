@@ -69,3 +69,7 @@ java/.idea
 java/*.iml
 java/out/
 *.class
+java/checkstyle-coursera.xml
+
+# vscode
+.vscode/
