@@ -50,13 +50,11 @@ from collections import defaultdict
 from pprint import pprint
 class Solution:
     def solveNQueens(self, n: int):
-        self.n_res = 0
         self.res = []
         def backtrack(n, v, l, r, row, s):
             if row == n:
-                self.n_res += 1
                 self.res.append(s.copy())
-                # print(s, self.res)
+                return
 
             for col in range(n):
                 if v[col] or l[row - col + n] or r[row + col]:
@@ -78,22 +76,15 @@ class Solution:
         r = defaultdict(lambda: False)
         
         backtrack(n, v, l, r, 0, [])
-        # print(self.res)
-        
-
-        # return self.n_res
-
 
         def translate(res):
             answers = []
             for r in res:
                 ans = [["."] * n for i in range(n)]
-                # print(ans)
                 for i in range(len(r)):
                     ans[i][r[i]] = 'Q'
                 answers.append(["".join(a) for a in ans])
             return answers
         res = translate(self.res)
-        # pprint(res)
         return res
 # @lc code=end
