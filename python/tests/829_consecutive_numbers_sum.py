@@ -46,12 +46,6 @@ from math import sqrt
 class Solution:
     def consecutiveNumbersSum(self, N: int) -> int:
         res = 1
-        # for a in range(1, N // 2 + 1):
-        #     # print('a=', a, sqrt((2*a-1)**2 + 4 * 2 * N))
-        #     st = sqrt((2*a-1)**2 + 4 * 2 * N)
-        #     if st - int(st) == 0:
-        #         res += 1
-        # return res
         for n in range(2, int(sqrt(2 * N))+1):
             if ( N - n*(n - 1)  / 2) % n == 0:
                 res += 1
