@@ -43,7 +43,7 @@
 # @lc code=start
 class Solution:
     # def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-    def findMedianSortedArrays(self, nums1, nums2):
+    def findMedianSortedArrays2(self, nums1, nums2):
 
 
         def single_arr_median(arr):
@@ -126,5 +126,28 @@ class Solution:
                 return nums1[c1 + (n // 2 - (c1+c2))]
 
 
+    def findMedianSortedArrays(self, nums1, nums2):
 
+        def getKth(nums1, start1, nums2, start2, k):
+            if start1 > len(nums1) - 1:
+                return nums2[start2 + k - 1]
+            if start2 > len(nums2) - 1:
+                return nums1[start1 + k - 1]
+            if k == 1:
+                return min(nums1[start1], nums2[start2])
+            mid1 = float('inf')
+            mid2 = float('inf')
+            if start1 + k // 2 - 1 < len(nums1):
+                mid1 = nums1[start1 + k // 2 - 1]
+            if start2 + k // 2 - 1 < len(nums2):
+                mid2 = nums2[start2 + k // 2 - 1]
+            if mid1 < mid2:
+                return getKth(nums1, start1 + k // 2, nums2, start2, k - k // 2)
+            else:
+                return getKth(nums1, start1, nums2, start2 + k // 2, k - k // 2)
+        
+        n = len(nums1) + len(nums2)
+        l = (n + 1) // 2
+        r = (n + 2) // 2
+        return (getKth(nums1, 0, nums2, 0, l) + getKth(nums1, 0, nums2, 0, r)) / 2
 # @lc code=end
