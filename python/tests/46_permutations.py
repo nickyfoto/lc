@@ -33,8 +33,15 @@
 #
 
 # @lc code=start
+from functools import reduce
 class Solution:
     # def permute(self, nums: List[int]) -> List[List[int]]:
     def permute(self, nums):
-        pass
+        """
+        https://leetcode.com/problems/permutations/discuss/18241/One-Liners-in-Python
+        """
+        return reduce(lambda P, n: [p[:i] +  [n] + p[i:]
+                                   for p in P
+                                       for i in range(len(p) + 1)],
+                      nums, [[]])
 # @lc code=end
