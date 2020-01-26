@@ -33,7 +33,8 @@
 # @lc code=start
 # from lcpy import List
 class Solution:
-    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+    # def permuteUnique2(self, nums: List[int]) -> List[List[int]]:
+    def permuteUnique2(self, nums):
         # https://stackoverflow.com/questions/6284396/permutations-with-unique-values
         class unique_element:
             def __init__(self,value,occurrences):
@@ -60,4 +61,32 @@ class Solution:
         l = perm_unique(nums)
         # print(list(map(list, l)))
         return list(map(list, l))
+
+    def permuteUnique(self, nums):
+        """
+        when a number has the same val with its previous
+        we can use this number only if its previous is used
+        """
+        def dfs(nums, used, lst, res):
+            # print(nums, used, lst, res)
+            if len(lst) == len(nums):
+                res.append(lst.copy())
+                return
+            for i in range(len(nums)):
+                if used[i]:
+                    continue
+                if (i > 0 and nums[i - 1] == nums[i] and not used[i - 1]):
+                    continue
+                used[i] = True
+                lst.append(nums[i])
+                dfs(nums, used, lst, res)
+                # print('i=', i, 'lst=', lst, 'res=', res)
+                used[i] = False
+                del lst[len(lst) - 1]
+        res = []
+        used = [False] * len(nums)
+        lst = []
+        nums.sort()
+        dfs(nums, used, lst, res)
+        return res
 # @lc code=end
