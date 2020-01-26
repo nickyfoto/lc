@@ -82,7 +82,7 @@ class Solution:
                 dfs(nums, used, lst, res)
                 # print('i=', i, 'lst=', lst, 'res=', res)
                 used[i] = False
-                del lst[len(lst) - 1]
+                lst.pop()
         res = []
         used = [False] * len(nums)
         lst = []
