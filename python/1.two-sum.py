@@ -34,6 +34,11 @@
 class Solution:
     # def twoSum(self, nums: List[int], target: int) -> List[int]:
     def twoSum(self, nums, target):
+        """
+        use a dictionary to save the value we've seen and its index
+        if we see a new number that can match with a previous seen number
+        we return the index of these two
+        """
         d = {nums[0]: 0}
         for i in range(len(nums)):
             other = target - nums[i+1]
