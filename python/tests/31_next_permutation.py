@@ -33,7 +33,7 @@
 # @lc code=start
 class Solution:
     # def nextPermutation(self, nums: List[int]) -> None:
-    def nextPermutation(self, nums):
+    def nextPermutation_v1(self, nums):
         """
         Do not return anything, modify nums in-place instead.
         """
@@ -57,5 +57,18 @@ class Solution:
                 mx_idx -= 1
             nums[mx_idx], nums[stop] = nums[stop], nums[mx_idx]
             nums[stop+1:] = sorted(nums[stop+1:])
-        
+
+    def nextPermutation(self, nums):
+
+        i = len(nums) - 2
+        while i >= 0 and nums[i] >= nums[i + 1]:
+            i -= 1
+        if i >= 0:
+            j = len(nums) - 1
+            while j >= 0 and nums[i] >= nums[j]:
+                j -= 1
+            nums[i], nums[j] = nums[j], nums[i]
+        # reverse(nums, i + 1)
+        nums[i+1:] = sorted(nums[i+1:])
+        # return nums
 # @lc code=end
