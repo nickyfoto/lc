@@ -10,13 +10,13 @@ def test_25():
     fn, _ = inspect.getmembers(m.Solution, inspect.isfunction)[0]
     func = getattr(s, fn)
 
-    # head = build_head([1,2,3,4,5])
-    # k = 2
-    # Output = build_head([2,1,4,3,5])
-    # assert func(head, k) == Output
-
-
     head = build_head([1,2,3,4,5])
-    k = 3
-    Output = build_head([3,2,1,4,5])
+    k = 2
+    Output = build_head([2,1,4,3,5])
     assert func(head, k) == Output
+
+
+    # head = build_head([1,2,3,4,5])
+    # k = 3
+    # Output = build_head([3,2,1,4,5])
+    # assert func(head, k) == Output

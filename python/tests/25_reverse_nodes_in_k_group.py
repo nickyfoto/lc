@@ -50,7 +50,7 @@
 # from lcpy import ListNode
 class Solution:
     # def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
-    def reverseKGroup(self, head, k):
+    def reverseKGroup_me(self, head, k):
         if not head:
             return None
         if k == 1:
@@ -81,4 +81,33 @@ class Solution:
         # print(h)
         # print(t)
         # print(r)
+
+
+
+    def reverse_append(self, head, node, i):
+        """
+        reverse the first i nodes of head
+        discard nodes beyond i
+        and append node to it.
+        """
+        while i > 0:
+            temp = head.next
+            head.next = node
+            node, head = head, temp
+            i -= 1
+        return node
+
+    def reverseKGroup(self, head, k):
+        node = head
+        i = 0
+        while node and i < k:
+            node = node.next
+            i += 1
+        if i == k:
+            node = self.reverseKGroup(node, k)
+            head = self.reverse_append(head, node, i)
+            # print("node =", node, "head =", head)
+            
+        # print(head)
+        return head # if i < k return head
 # @lc code=end
