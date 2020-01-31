@@ -107,7 +107,8 @@ class Solution:
 
         # print(res)
         return res
-    def findSubstring(self, s, words):
+    
+    def findSubstring_v1(self, s, words):
         wordBag = Counter(words)   # count the freq of each word
         wordLen, numWords = len(words[0]), len(words)
         totalLen, res = wordLen*numWords, []
@@ -125,4 +126,26 @@ class Solution:
             if seen == wordBag:
                 res.append(i)   # store result
         return res
+
+
+    def findSubstring(self, s, words):
+        if not s or not words:
+            return []
+        c = Counter(words)
+        word_length, num_of_words = len(words[0]), len(words)
+        total_length, res = word_length * num_of_words, []
+        for i in range(len(s) - total_length + 1):
+            seen = defaultdict(int)
+            for j in range(i, i + total_length, word_length):
+                curr_word = s[j:j + word_length]
+                if curr_word in c:
+                    seen[curr_word] += 1
+                    if seen[curr_word] > c[curr_word]:
+                        break
+                else:
+                    break
+            if seen == c:
+                res.append(i)
+        return res
+
 # @lc code=end
