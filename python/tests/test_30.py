@@ -40,3 +40,9 @@ def test_30():
     words = ["aa","aa","aa"]
     Output = [0,1,2]
     assert func(s, words) == Output
+
+
+    s = "barfoothexfoobarman"
+    words = ["foo","bar"]
+    Output = [0, 10]
+    assert func(s, words) == Output
