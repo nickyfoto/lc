@@ -49,7 +49,7 @@ from bisect import bisect_left
 class Solution:
     # def search(self, nums: List[int], target: int) -> bool:
 
-    def search(self, nums, target):
+    def search_me(self, nums, target):
         
     
         def findMinIndex(nums):
@@ -113,4 +113,25 @@ class Solution:
         else:
             return bs(nums[:min_index], target) or bs(nums[min_index:], target)
 
+    def search(self, nums, target):
+        lo, hi = 0, len(nums) - 1
+        while lo <= hi:
+            mid = (lo + hi) // 2
+            m = nums[mid]
+            if m == target:
+                return True
+            if nums[lo] == m and nums[hi] == m:
+                lo += 1
+                hi -= 1
+            elif nums[lo] <= m:
+                if nums[lo] <= target and m > target:
+                    hi = mid - 1
+                else:
+                    lo = mid + 1
+            else:
+                if m < target and nums[hi] >= target:
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
+        return False
 # @lc code=end

@@ -46,7 +46,7 @@
 # @lc code=start
 class Solution:
     # def findMin(self, nums: List[int]) -> int:
-    def findMin(self, nums):
+    def findMin_me(self, nums):
         n = len(nums)
         if n == 1 or len(set(nums)) == 1:
             return nums[0]
@@ -73,5 +73,22 @@ class Solution:
                     if left_min < nums[0]:
                         return left_min
                     else:
-                        return self.findMin(nums[mid:])                    
+                        return self.findMin(nums[mid:])      
+    
+    
+    def findMin(self, nums):
+        lo, hi = 0, len(nums) - 1
+        while lo < hi:
+            mid = (lo + hi) // 2
+            m = nums[mid]
+            if m > nums[hi]:
+                lo = mid + 1
+            elif m < nums[hi]:
+                hi = mid
+            else:
+                if nums[hi - 1] > nums[hi]:
+                    lo = hi
+                    break
+                hi -= 1
+        return nums[lo]
 # @lc code=end
