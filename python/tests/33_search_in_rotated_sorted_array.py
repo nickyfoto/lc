@@ -44,7 +44,7 @@
 from bisect import bisect_left
 class Solution:
     # def search(self, nums: List[int], target: int) -> int:
-    def search(self, nums, target):
+    def search_me(self, nums, target):
         if not nums:
             return -1
 
@@ -116,5 +116,27 @@ class Solution:
 
 
         # return find_k(nums)
+
+    def search(self, nums, target):
+        """
+        not undertand yet
+        https://leetcode.com/problems/search-in-rotated-sorted-array/discuss/14435/Clever-idea-making-it-simple/187360
+        """
+        l, h = 0, len(nums)
+        while l < h:
+            mid = (l + h) // 2
+            num = nums[mid]
+            if (num < nums[0]) == (target < nums[0]):
+                if target < num:
+                    h = mid
+                elif target > num:
+                    l = mid + 1
+                else:
+                    return mid
+            elif target < nums[0]:
+                l = mid + 1
+            else:
+                h = mid
+        return -1
 
 # @lc code=end
