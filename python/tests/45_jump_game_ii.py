@@ -57,7 +57,7 @@ class Solution:
         # print(neighbors)
         return bfs(neighbors, 1)
 
-    def jump(self, nums):
+    def jump_v2(self, nums):
         n = len(nums)
         l, r = 0, 0
         left_right = [l, l + 1]
@@ -71,6 +71,21 @@ class Solution:
             left_right = [l + 1, r + 1]
             l = r
             steps += 1
+        return steps
+
+    def jump(self, nums):
+        """
+        forum
+        """
+        steps = 0
+        l = 0
+        r = 0
+        n = len(nums)
+        for i in range(n - 1):
+            r = max(r, i + nums[i])
+            if i == l:
+                steps += 1
+                l = r
         return steps
 
 
