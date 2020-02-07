@@ -83,7 +83,24 @@
 from pprint import pprint
 class Solution:
     # def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+
+
+    
+
     def suggestedProducts(self, products, searchWord):
+        """
+        @lee215
+        """
+        from bisect import bisect_left
+        products.sort()
+        res = []
+        for i in range(1, len(searchWord) + 1):
+            idx = bisect_left(products, searchWord[:i])
+            # print(products[idx: idx + 3])
+            res.append([p for p in products[idx: idx + 3] if p.startswith(searchWord[:i])])
+        return res
+
+    def suggestedProducts_me(self, products, searchWord):
         products.sort()
         max_length = max(map(len, products))
         # print(products, max_length)
