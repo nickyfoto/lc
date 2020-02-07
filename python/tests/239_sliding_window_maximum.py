@@ -45,10 +45,46 @@
 
 # @lc code=start
 from bisect import bisect_left, insort_left
+from collections import deque
 class Solution:
     # def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
     
     def maxSlidingWindow(self, nums, k):
+        """
+        i = 0
+            d = [0]
+            res = []
+        i = 1
+            n = 3
+            nums[d[-1]] = nums[0] < n
+                d = []
+            d = [1]
+            res = []
+        i = 2
+            n = -1
+            nums[d[-1]] = nums[1] > n
+            d = [1,2]
+            i >= k - 1
+                res = [3]
+        """
+        d = deque()
+        res = []
+        for i, n in enumerate(nums):
+            # make sure the rightmost >= n
+            while d and nums[d[-1]] < n:
+                d.pop()
+            d += i,
+            # make sure the leftmost is within the sliding window
+            if d[0] == i - k:
+                d.popleft()
+            # starting point where we add the largest val to res
+            if i >= k - 1:
+                res += nums[d[0]],
+        return res
+
+
+
+    def maxSlidingWindow_me(self, nums, k):
         if not nums:
             return []
         if k == 1:
