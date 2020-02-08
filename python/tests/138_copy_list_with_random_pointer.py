@@ -81,7 +81,60 @@ class Node:
 """
 class Solution:
     # def copyRandomList(self, head: 'Node') -> 'Node':
+
     def copyRandomList(self, head):
+        if not head:
+            return None
+
+        node = head
+        d = {}
+        while node:
+            d[node] = Node(node.val)
+            node = node.next
+
+        node = head
+        while node:
+            d[node].next = d.get(node.next)
+            d[node].random = d.get(node.random)
+            node = node.next
+        return d[head]
+
+    def copyRandomList_forum(self, head):
+        """
+        not understand
+        """
+        node = head
+        while node:
+            copy = Node(node.val)
+            copy.next = node.next
+            node.next = copy
+            node = copy.next
+
+        # Set each copy's .random
+        node = head
+        while node:
+            if node.random:
+                node.next.random = node.random.next
+            else:
+                node.next.random = node.random
+            node = node.next.next
+
+        # Separate the copied list from the original, (re)setting every .next
+        node = head
+        if head:
+            copy = head_copy = head.next
+        else:
+            copy = head_copy = head
+        while node:
+            node.next = node = copy.next
+            if node:
+                copy.next = copy = node.next
+            else:
+                copy.next = copy = node
+
+        return head_copy
+
+    def copyRandomList_me(self, head):
         if not head:
             return None
         new_head = Node(head.val)
