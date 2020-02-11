@@ -97,6 +97,21 @@ from pprint import pprint
 class Solution:
     # def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
     def fullJustify(self, words, maxWidth):
+        """
+        
+        """
+        res, line, word_length = [], [], 0
+        for w in words:
+            if word_length + len(w) + len(line) > maxWidth:
+                # start process the filled line
+                for i in range(maxWidth - word_length):
+                    line[i % (len(line) - 1 or 1)] += ' '
+                res.append(''.join(line))
+                line, word_length = [], 0
+            line += [w]
+            word_length += len(w)
+        return res + [' '.join(line).ljust(maxWidth)]
+    def fullJustify_me(self, words, maxWidth):
 
         i = 0
         width = maxWidth
