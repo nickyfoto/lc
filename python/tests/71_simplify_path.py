@@ -103,7 +103,6 @@ class Solution:
                 else:
                     folder_name = path[i+1:j]
                 # print(i, j, folder_name)
-                # print(i, j, folder_name)
                 if folder_name:
                     if folder_name == '..':
                         if stack:
