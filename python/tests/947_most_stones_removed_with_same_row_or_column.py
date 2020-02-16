@@ -62,22 +62,59 @@
 #
 
 # @lc code=start
+# class UF:
+#     """
+#     normal uf
+#     """
+#     def __init__(self, total):
+#         self.arr = list(range(total))
+#     def find(self, p):
+#         while p != self.arr[p]:
+#             p = self.arr[p]
+#         return p
+#     def union(self, p, q):
+#         root_p = self.find(p)
+#         root_q = self.find(q)
+#         self.arr[root_q] = root_p
+
+
+
+class UF:
+    """
+    @lee215
+    """
+    def __init__(self):
+        self.d = {}
+    def find(self, p):
+        while p != self.d[p]:
+            p = self.d[p]
+        return p
+    def union(self, p, q):
+        self.d.setdefault(p, p)
+        self.d.setdefault(q, q)
+        self.d[self.find(q)] = self.find(p)
+
+
 class Solution:
     # def removeStones(self, stones: List[List[int]]) -> int:
+
     def removeStones(self, stones):
-        class UF:
-            def __init__(self, total):
-                self.arr = range(total)
-            def find(self, p):
-                while p != self.arr[p]:
-                    p = self.arr[p]
-                return p
-            def union(self, p, q):
-                root_p = self.find(p)
-                root_q = self.find(q)
-                self.arr[root_q] = root_p
+        """
+        @lee215
+        """
+        uf = UF()
+        for x, y in stones:
+            uf.union(x, ~y)
+        print(uf.d)
+        return len(stones) - len({uf.find(x) for x in uf.d})
+
+
+    def removeStones_a(self, stones):
+        """
+        @awice
+        """
         uf = UF(20000)
         for x, y in stones:
-            uf.union(x, y + 100000)
-        return len(stones) - {uf.find(x) for x, y in stones}
+            uf.union(x, y + 10000)
+        return len(stones) - len({uf.find(x) for x, y in stones})
 # @lc code=end
