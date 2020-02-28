@@ -59,5 +59,23 @@
 class Solution:
     # def maxLength(self, arr: List[str]) -> int:
     def maxLength(self, arr):
-        pass
+        """
+        @lee215
+        if word contains duplicate letter, continue
+        for each c in dp:
+            if this c has common intersection with a:
+                continue
+            dp.append(a union c)
+        return max length
+        """
+        dp = [set()]
+        for a in arr:
+            if len(set(a)) < len(a):
+                continue
+            a = set(a)
+            for c in dp[:]:
+                if a & c:
+                    continue
+                dp.append(a | c)
+        return max(map(len, dp))
 # @lc code=end
