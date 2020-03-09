@@ -64,12 +64,20 @@ class Solution:
             # for the first column
             # if curr == 0 and up == 1
             # set curr = 1
-            obstacleGrid[i][0] = int(obstacleGrid[i][0] == 0 and obstacleGrid[i - 1][0] == 1)
+            # obstacleGrid[i][0] = int(obstacleGrid[i][0] == 0 and obstacleGrid[i - 1][0] == 1)
+            if obstacleGrid[i][0] == 0 and obstacleGrid[i-1][0] == 1:
+                obstacleGrid[i][0] = 1
+            elif obstacleGrid[i][0] == 1:
+                obstacleGrid[i][0] = 0
         for j in range(1, n):
             # for the first row
             # if curr == 0 left == 1
             # set curr = 1
-            obstacleGrid[0][j] = int(obstacleGrid[0][j] == 0 and obstacleGrid[0][j - 1] == 1)
+            # obstacleGrid[0][j] = int(obstacleGrid[0][j] == 0 and obstacleGrid[0][j - 1] == 1)
+            if obstacleGrid[0][j] == 0 and obstacleGrid[0][j-1] == 1:
+                obstacleGrid[0][j] = 1
+            elif obstacleGrid[0][j] == 1:
+                obstacleGrid[0][j] = 0
         for i in range(1, m):
             for j in range(1, n):
                 if obstacleGrid[i][j] == 0:
