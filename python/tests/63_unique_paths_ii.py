@@ -74,7 +74,7 @@ class Solution:
             for j in range(1, n):
                 if obstacleGrid[i][j] == 0:
                     obstacleGrid[i][j] = obstacleGrid[i - 1][j] + obstacleGrid[i][j - 1]
-                else:
+                else: # if obstacle, set it to 0
                     obstacleGrid[i][j] = 0
         return obstacleGrid[-1][-1]
         
