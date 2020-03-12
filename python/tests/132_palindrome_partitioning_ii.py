@@ -82,22 +82,39 @@ class Solution:
 
         # below can pass OJ but runtime and memory is very high
 
-        @lru_cache(None)
-        def is_parlindrome(l, r):
-            if r - l == 1 or r == l:
-                return True
-            st = s[l:r]
-            if st[0] != st[-1]:
-                return False
-            return is_parlindrome(l + 1, r - 1)
+        # @lru_cache(None)
+        # def is_parlindrome(l, r):
+        #     if r - l == 1 or r == l:
+        #         return True
+        #     st = s[l:r]
+        #     if st[0] != st[-1]:
+        #         return False
+        #     return is_parlindrome(l + 1, r - 1)
 
+        # for i in range(2, n + 1):
+        #     for j in range(i):
+        #         if is_parlindrome(j, i):
+        #             dp[i] = min(dp[j] + 1, dp[i])
+        # return dp[-1]
+
+
+        # use matrix to check is_parlindrome
+        matrix = [[0] * n for _ in range(n)]
+        for mid in range(n):
+            i = j = mid
+            while 0 <= i and j < n and s[i] == s[j]:
+                matrix[i][j] = 1
+                i -= 1
+                j += 1
+            i = mid
+            j = mid + 1
+            while 0 <= i and j < n and s[i] == s[j]:
+                matrix[i][j] = 1
+                i -= 1
+                j += 1
         for i in range(2, n + 1):
             for j in range(i):
-                if is_parlindrome(j, i):
+                if matrix[j][i-1]:
                     dp[i] = min(dp[j] + 1, dp[i])
         return dp[-1]
-
-
-        
-
 # @lc code=end
