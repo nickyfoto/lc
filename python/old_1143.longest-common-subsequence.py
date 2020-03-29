@@ -6,11 +6,9 @@
 # https://leetcode.com/problems/longest-common-subsequence/description/
 #
 # algorithms
-# Medium (57.82%)
-# Likes:    688
-# Dislikes: 11
-# Total Accepted:    43.7K
-# Total Submissions: 75.6K
+# Medium (57.54%)
+# Total Accepted:    10.3K
+# Total Submissions: 17.9K
 # Testcase Example:  '"abcde"\n"ace"'
 #
 # Given two strings text1 and text2, return the length of their longest common
@@ -61,9 +59,47 @@
 # 
 # 
 #
-
-# @lc code=start
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        pass
-# @lc code=end
+        
+        # print('lcs')
+        # if text1 == text2:
+            # return len(text1)
+        L = [[x]*len(text2) for x in [0]*len(text1)]
+        # print(L)
+        for i in range(len(L)):
+            for j in range(len(L[0])):
+                # print(i, j)
+                if text1[i] == text2[j]:
+                    if i == 0 or j == 0:
+                        L[i][j] = 1
+                    else:
+                        L[i][j] = 1 + L[i-1][j-1]
+                else:
+                    if i == 0:
+                        L[i][j] = L[i][j-1]
+                    if j == 0:
+                        L[i][j] = L[i-1][j]
+                    else:
+                        L[i][j] = max(L[i-1][j], L[i][j-1])
+        return L[len(L)-1][len(L[0])-1]
+
+        # if they are the same then must be in lcs
+        # if not, both does not belong | a belong to lcs or b belong to lcs
+
+
+
+# s = Solution()
+# text1 = "abcde"
+# text2 = "ace"
+# print(s.longestCommonSubsequence(text1, text2))
+
+# text1 = "abc"
+# text2 = "def"
+# print(s.longestCommonSubsequence(text1, text2))
+
+
+# text1 = "oxcpqrsvwf" #qr
+# text2 = "shmtulqrypy" #qr
+# print(s.longestCommonSubsequence(text1, text2)) #2
+
