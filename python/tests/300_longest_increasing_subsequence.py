@@ -40,7 +40,7 @@
 from bisect import bisect_left
 class Solution:
     # def lengthOfLIS(self, nums: List[int]) -> int:
-    def lengthOfLIS(self, nums):
+    def lengthOfLIS_bs(self, nums):
         """
         dp with binary search
         """
@@ -54,4 +54,12 @@ class Solution:
             if i == res:
                 res += 1
         return res
+
+    def lengthOfLIS(self, nums):
+        n = len(nums)
+        dp = [1] * n
+        for i in range(n):
+            dp[i] = max(dp[i], max([dp[j] for j in range(i) if nums[j] < nums[i]] or [0]) + 1)
+        # print(dp)
+        return max(dp) if dp else 0
 # @lc code=end

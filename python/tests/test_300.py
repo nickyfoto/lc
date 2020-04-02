@@ -11,6 +11,6 @@ def test_300():
     func = getattr(s, fn)
 
     
-    
-
+    nums = [10,9,2,5,3,7,101,18]
+    Output = 4
     assert func(nums) == Output
