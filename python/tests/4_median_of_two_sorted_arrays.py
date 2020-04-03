@@ -150,4 +150,34 @@ class Solution:
         l = (n + 1) // 2
         r = (n + 2) // 2
         return (getKth(nums1, 0, nums2, 0, l) + getKth(nums1, 0, nums2, 0, r)) / 2
+
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        assume len(nums1) <= len(nums2)
+
+        this is why the problem is hard
+        """
+        m, n = len(nums1), len(nums2)
+        if m > n: return self.findMedianSortedArrays(nums2, nums1)
+        l, r, half_len = 0, m, (m + n + 1) // 2
+        while l <= r:
+            mid = l + (r - l) // 2
+            j = half_len - mid
+            if mid < m and nums2[j - 1] > nums1[mid]:
+                l = mid + 1
+            elif mid > 0 and nums1[mid - 1] > nums2[j]:
+                r = mid - 1
+            else:
+                if mid == 0: max_left = nums2[j - 1]
+                elif j == 0: max_left = nums1[mid - 1]
+                else: max_left = max(nums1[mid - 1], nums2[j - 1])
+
+                if (m + n) % 2 == 1:
+                    return max_left
+                
+                if mid == m: min_right = nums2[j]
+                elif j == n: min_right = nums1[mid]
+                else: min_right = min(nums1[mid], nums2[j])
+                return (max_left + min_right) / 2
+
 # @lc code=end
