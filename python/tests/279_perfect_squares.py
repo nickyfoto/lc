@@ -33,17 +33,60 @@
 
 # @lc code=start
 from math import sqrt, inf
+from functools import lru_cache
 class Solution:
     # def numSquares(self, n: int) -> int:
+    def numSquares(self, n):
+        """
+        recursive
+        """
+        square_sums = [i**2 for i in range(1, int(sqrt(n) + 1))]
+        square_sums = {k:k for k in square_sums}
+        
+        @lru_cache(None)
+        def recur(n):
+            if n in square_sums:
+                return 1
+            mn = inf
+            for square in square_sums:
+                if n < square:
+                    break
+                mn = min(mn, recur(n - square) + 1)
+            return mn
+        return recur(n)
+
     def numSquares(self, n):
         """
         follow up question
             - how many ways N can be divided into perfect squares
             - if it is possible to divide N into k perfect squares
         """
-        dp = [inf] * (n + 1)
-        dp[0] = 0
+        dp = [0] * (n + 1)
         for i in range(1, n + 1):
             dp[i] = min(dp[i - j * j] + 1 for j in range(1, int(sqrt(i)) + 1))
         return dp[-1]
+    
+    def numSquares(self, n):
+        """
+        greedy + bfs
+        didn't understand bfs version yet
+        """
+        square_sums = [i * i for i in range(1, int(sqrt(n)) + 1)]
+        level = 0
+        q = {n}
+        while q:
+            level += 1
+            next_queue = set()
+            for remainder in q:
+                for square_sum in square_sums:
+                    if remainder == square_sum:
+                        return level # find the node!
+                    elif remainder < square_sum:
+                        break
+                    else:
+                        next_queue.add(remainder - square_sum)
+            q = next_queue
+        return level
+
+    
 # @lc code=end
