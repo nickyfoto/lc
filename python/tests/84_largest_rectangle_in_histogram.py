@@ -43,18 +43,6 @@
 # @lc code=start
 class Solution:
     # def largestRectangleArea(self, heights: List[int]) -> int:
-    def largestRectangleArea(self, heights):
-        heights.append(0)
-        stack = [-1]
-        mx = 0
-        for i in range(len(heights)):
-            while heights[i] < heights[stack[-1]]:
-                h = heights[stack.pop()]
-                w = i - stack[-1] - 1
-                mx = max(mx, h * w)
-            stack.append(i)
-        # print(stack)
-        return mx
     def largestRectangleArea_forum(self, heights):
         """
         the answer must be some area that contains the a whole bar
@@ -65,7 +53,6 @@ class Solution:
 
         the probem becomes to efficiently find left, right for each height[i]
         we save these information on two array called left and right
-
         """
         if not heights:
             return 0
@@ -90,5 +77,17 @@ class Solution:
 
         for i, h in enumerate(heights):
             mx = max(mx, h * (right[i] - left[i] - 1))
+        return mx
+
+    def largestRectangleArea(self, heights):
+        heights.append(0)
+        mx = 0
+        stack = [-1]
+        for i in range(len(heights)):
+            while stack and heights[stack[-1]] > heights[i]:
+                h = heights[stack.pop()]
+                w = i - stack[-1] - 1
+                mx = max(mx, h * w)
+            stack.append(i)
         return mx
 # @lc code=end
