@@ -36,12 +36,44 @@
 from functools import reduce
 class Solution:
     # def permute(self, nums: List[int]) -> List[List[int]]:
+    # def permute(self, nums):
+    #     """
+    #     https://leetcode.com/problems/permutations/discuss/18241/One-Liners-in-Python
+    #     """
+    #     return reduce(lambda P, n: [p[:i] +  [n] + p[i:]
+    #                                for p in P
+    #                                    for i in range(len(p) + 1)],
+    #                   nums, [[]])
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        self.res = []
+        n = len(nums)
+        
+        def backtrack(temp, used):
+            if len(temp) == n:
+                self.res.append(temp)
+            else:
+                for i in range(n):
+                    if i not in used or not used[i]:
+                        used[i] = True
+                        backtrack(temp + [nums[i]], used)
+                        used[i] = False
+        
+        backtrack([], {})
+        
+        return self.res
+
     def permute(self, nums):
-        """
-        https://leetcode.com/problems/permutations/discuss/18241/One-Liners-in-Python
-        """
-        return reduce(lambda P, n: [p[:i] +  [n] + p[i:]
-                                   for p in P
-                                       for i in range(len(p) + 1)],
-                      nums, [[]])
+
+        def backtrack(first):
+            if first == n:
+                res.append(nums[:])
+            else:
+                for i in range(first, n):
+                    nums[first], nums[i] = nums[i], nums[first]
+                    backtrack(first + 1)
+                    nums[first], nums[i] = nums[i], nums[first]
+        n = len(nums)
+        res = []
+        backtrack(0)
+        return res
 # @lc code=end
