@@ -102,4 +102,27 @@ class Solution:
             command = next(cmd)
             # print(res)
         return res
+
+    def spiralOrder(self, matrix):
+        return matrix and [*matrix.pop(0)] + self.spiralOrder([*zip(*matrix)][::-1])
+
+    def spiralOrder(self, matrix):
+        if not matrix or not matrix[0]: return []
+        m, n = len(matrix), len(matrix[0])
+        res = []
+        dr = [0, 1, 0, -1]
+        dc = [1, 0, -1, 0]
+        r = c = i = 0
+        seen = defaultdict(lambda: False)
+        for _ in range(m * n):
+            res.append(matrix[r][c])
+            seen[r,c] = True
+            rr, cc = r + dr[i], c + dc[i]
+            if 0 <= rr < m and 0 <= cc < n and not seen[rr,cc]:
+                r, c = rr, cc
+            else:
+                i = (i + 1) % 4
+                r, c = r + dr[i], c + dc[i]
+        return res
+
 # @lc code=end
