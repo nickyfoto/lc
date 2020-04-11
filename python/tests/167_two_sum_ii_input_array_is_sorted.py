@@ -33,7 +33,7 @@
 # Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 # 
 #
-from bisect import bisect_left
+from bisect import bisect_left7
 class Solution:
     # def twoSum(self, numbers: List[int], target: int) -> List[int]:
     def bs(self, numbers, target, debug=False):
