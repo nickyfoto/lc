@@ -33,6 +33,7 @@
 # Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 # 
 #
+from bisect import bisect_left
 class Solution:
     # def twoSum(self, numbers: List[int], target: int) -> List[int]:
     def bs(self, numbers, target, debug=False):
@@ -102,32 +103,14 @@ class Solution:
             else:
                 l += 1
         return res
-# s = Solution()
-# a = [2,7,11,15]
-# target = 9
-# print(s.twoSum(a, target))
-# a = [0,1,2,7,11,15]
-# target = 9
-# print(s.twoSum(a, target))
-# a = [0,1,2,7,11,15]
-# target = 16
-# print(s.twoSum(a, target))
 
-# a = [0,1,2,7,11,15]
-# target = 15
-# print(s.twoSum(a, target))
-
-# a = [0,1,2,7,11,15]
-# target = 26
-# print(s.twoSum(a, target))
-
-
-
-# a = [1,2,3,4,4,9,56,90]
-# target = 8
-# print(s.twoSum(a, target))
-
-
+    def twoSum(self, numbers, target):
+        for i, n in enumerate(numbers):
+            first = i + 1
+            nums = numbers[first:]
+            other = bisect_left(nums, target - n)
+            if other < len(nums) and nums[other] == target - n:
+                return [first, first + other + 1]
 
 
 
