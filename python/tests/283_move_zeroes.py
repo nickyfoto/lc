@@ -60,6 +60,10 @@ class Solution:
             none_zero += 1
 
 
-# s = Solution()
-# nums = [0,1,0,3,12]
-# s.moveZeroes(nums)
+    def moveZeros(self, nums):
+        none_zero = curr = 0
+        while curr < len(nums):
+            if nums[curr] != 0:
+                nums[none_zero], nums[curr] = nums[curr], nums[none_zero]
+                none_zero += 1
+        
