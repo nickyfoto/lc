@@ -54,7 +54,7 @@ class Solution:
             R = depth(node.right)
             self.ans = max(self.ans, L+R)
             return max(L, R) + 1
-
+        self.ans = 0
         depth(root)
         return self.ans
 
