@@ -38,6 +38,9 @@
 class Solution:
     # def isPalindrome(self, head: ListNode) -> bool:
     def isPalindrome(self, head):
+        """
+        O(1) space is too complicated
+        """
         if not head:
             return True
         # n = 0
