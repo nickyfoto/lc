@@ -84,10 +84,9 @@ class MyLinkedList:
 
     def get(self, index):
         """
-        Get the value of the index-th node in the linked list. If the index is invalid, return -1.
+        Get the value of the index-th node in the linked list.
+        If the index is invalid, return -1.
         """
-        # if not self.head:
-            # return -1
         if index > self.length - 1:
             return -1
         if index < 0:
@@ -100,7 +99,8 @@ class MyLinkedList:
     # def addAtHead(self, val: int) -> None:
     def addAtHead(self, val):
         """
-        Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+        Add a node of value val before the first element of the linked list.
+        After the insertion, the new node will be the first node of the linked list.
         """
         if not self.head:
             self.head = Node(val)
@@ -133,7 +133,10 @@ class MyLinkedList:
     # def addAtIndex(self, index: int, val: int) -> None:
     def addAtIndex(self, index, val):
         """
-        Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted.
+        Add a node of value val before the index-th node in the linked list. 
+        If index equals to the length of linked list, 
+        the node will be appended to the end of linked list. 
+        If index is greater than the length, the node will not be inserted.
         """
         if index == 0:
             return self.addAtHead(val)
@@ -177,53 +180,126 @@ class MyLinkedList:
             pre.next = n.next
         self.length -= 1
         
-# MyLinkedList linkedList = new MyLinkedList();
-# linkedList.addAtHead(1);
-# linkedList.addAtTail(3);
-# linkedList.addAtIndex(1, 2);  // linked list becomes 1->2->3
-# linkedList.get(1);            // returns 2
-# linkedList.deleteAtIndex(1);  // now the linked list is 1->3
-# linkedList.get(1);            // returns 3
+class MyLinkedList:
+    """
+    singly linked list
+    """
+    def __init__(self):
+        self.size = 0
+        self.head = Node(0) # can it be None?
 
-# Your MyLinkedList object will be instantiated and called as such:
+    def get(self, index):
+        if index < 0 or index >= self.size:
+            return -1
+        curr = self.head
+        for _ in range(index + 1):
+            curr = curr.next
+        return curr.val
+
+    def addAtIndex(self, index, val):
+        if index > self.size:
+            return
+        pred = self.head
+        for _ in range(index):
+            pred = pred.next
+        to_add = Node(val)
+        to_add.next = pred.next
+        pred.next = to_add
+        self.size += 1
+
+    def addAtHead(self, val):
+        self.addAtIndex(0, val)
+
+    def addAtTail(self, val):
+        self.addAtIndex(self.size, val)
+
+    def deleteAtIndex(self, index):
+        if index < 0 or index >= self.size:
+            return -1
+        pred = self.head
+        for _ in range(index):
+            pred = pred.next
+        pred.next = pred.next.next
+        self.size -= 1
 
 
+class ListNode:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+        self.prev = None
 
-# obj = MyLinkedList()
-# obj.addAtHead(1)
-# obj.addAtTail(3)
-# obj.addAtIndex(1, 2)
-# print(obj.get(1))
-# obj.deleteAtIndex(1)
-# print(obj.get(1))
-# print(obj)
+class MyLinkedList:
+    """
+    Doubly Linked List
+    """
+    def __init__(self):
+        self.size = 0
+        self.head, self.tail = ListNode(0), ListNode(0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+    
+    def get(self, index):
+        if index < 0 or index >= self.size:
+            return -1
+        if index + 1 < self.size - index:
+            curr = self.head
+            for _ in range(index + 1):
+                curr = curr.next
+        else:
+            curr = self.tail
+            for _ in range(self.size - index):
+                curr = curr.prev
+        return curr.val
 
+    def addAtHead(self, val):
+        pred, succ = self.head, self.head.next
+        self._insertNode(val, pred, succ)
 
-# obj.addAtHead(1)
-# obj.addAtIndex(1, 2)
-# print(obj.get(1))
-# print(obj.get(0))
-# print(obj.get(2))
-# print(obj)
+    def addAtTail(self, val):
+        succ, pred = self.tail, self.tail.prev
+        self._insertNode(val, pred, succ)
+    
+    def addAtIndex(self, index, val):
+        if index > self.size: return
 
-# print(obj.get(0))
-# obj.addAtIndex(1, 2)
-# print(obj.get(0))
-# print(obj.get(1))
-# obj.addAtIndex(0, 1)
-# print(obj.get(0))
-# print(obj.get(1))
-# print(obj)
+        if index < self.size - index:
+            pred = self.head
+            for _ in range(index):
+                pred = pred.next
+            succ = pred.next
+        else:
+            succ = self.tail
+            for _ in range(self.size - index):
+                succ = succ.prev
+            pred = succ.prev
 
+        self._insertNode(val, pred, succ)
 
+    def _insertNode(self, val, pred, succ):
+        to_add = ListNode(val)
+        to_add.prev = pred
+        to_add.next = succ
+        pred.next = to_add
+        succ.prev = to_add
+        self.size += 1
 
+    def deleteAtIndex(self, index):
+        if index < 0 or index >= self.size:
+            return
+        if index < self.size - index:
+            pred = self.head
+            for _ in range(index):
+                pred = pred.next
+            succ = pred.next.next
+        else:
+            succ = self.tail
+            for _ in range(self.size - index - 1):
+                succ = succ.prev
+            pred = succ.prev.prev
 
-# obj.addAtHead(38)
-# obj.addAtHead(45)
-# obj.deleteAtIndex(2)
-
-# obj.addAtIndex(-1, 0)
-# print(obj.get(0))
-# obj.deleteAtIndex(-1)
-
-# print(obj)
+        pred.next = succ
+        succ.prev = pred
+        self.size -= 1
+        
+        
